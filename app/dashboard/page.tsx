@@ -2,6 +2,18 @@ import CreateBoardButton from "@/components/new_refactor/create-board-button";
 import Board from "@/components/new_refactor/board";
 import { createClient } from "@/lib/supabase/server";
 import { Suspense } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export function SkeletonCard() {
+  return (
+    <Card className="border-none  max-w-xs">
+      <CardContent>
+        <Skeleton className="aspect-video  w-40 h-52 rounded-lg p-4 flex flex-col" />
+      </CardContent>
+    </Card>
+  );
+}
 
 async function BoardsContent() {
   const supabase = await createClient();
@@ -29,7 +41,15 @@ export default async function Boards() {
 
         <CreateBoardButton />
       </div>
-      <Suspense fallback="Cargando">
+      <Suspense
+        fallback={
+          <div className="flex justify-center  h-80 mt-10">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        }
+      >
         <BoardsContent />
       </Suspense>
     </main>
