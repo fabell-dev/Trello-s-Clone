@@ -3,6 +3,9 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "@/components/new_refactor/nav-bar";
+import { AuthProvider } from "@/lib/auth-context";
+import { createClient } from "@/lib/supabase/server";
+import { Suspense } from "react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,6 +23,18 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+async function AuthProviderWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims || null;
+
+  return <AuthProvider user={user}>{children}</AuthProvider>;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,8 +49,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <Suspense fallback={<div />}>
+            <AuthProviderWrapper>
+              <Navbar />
+              {children}
+            </AuthProviderWrapper>
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

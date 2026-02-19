@@ -29,6 +29,14 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    /* Hero Palette - Light Theme */
+    --hero-bg: #393c84;
+    --hero-text: #1a1a1a;
+    /* Accent Colors */
+    --accent-1: #13ffaa;
+    --accent-2: #1e67c6;
+    --accent-3: #ce84cf;
+    --accent-4: #dd335c;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -55,6 +63,9 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    /* Hero Palette - Dark Theme */
+    --hero-bg: #020617;
+    --hero-text: #f0f0f0;
   }
 }
 
